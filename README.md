@@ -18,6 +18,8 @@ Requirements:
 cp .env.sample .env
 make dev
 ```
+> Note that it is also at the moment needed to check/update the project name in the following places:
+> * Dockerfile
 
 This spins up a Jupyter server, which can be accessed at `localhost:<PORT>`, where `PORT` is specified in the environment.
 

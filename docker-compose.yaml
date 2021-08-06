@@ -1,0 +1,22 @@
+services:
+  jup:
+    build: 
+      context: .
+    container_name: $JUP_CONTAINER_NAME
+    user: $USR_NAME
+    ports:
+      - $JUP_PORT:$JUP_PORT
+    volumes:
+      - ./src/modules/:$PROJECT_PATH/src/modules/
+      - ./src/main/:$PROJECT_PATH/src/main/
+      - ./requirements.txt:$PROJECT_PATH/requirements.txt
+      - jupvenv:$PROJECT_PATH/venv/
+    working_dir: $PROJECT_PATH/
+    command: >
+      /bin/bash -c ". jupdev &&
+                    python -m pip install -r requirements.txt && \ 
+                    cd src/ && \
+                    jupyter lab --no-browser --port $JUP_PORT --ip 0.0.0.0 --ServerApp.token=''"
+volumes:
+  jupvenv:
+    name: $JUP_VOLUME_NAME
