@@ -46,7 +46,13 @@ install: env_guard docker
 setup: init build install
 
 runcli: env_guard docker
-	docker run -it -u $(USR_NAME) --name $(JUP_CONTAINER_NAME) $(JUP_IMAGE_NAME)
+	docker run -it --rm \
+	--user $(USR_NAME):$(USR_NAME) \
+	--name $(JUP_CONTAINER_NAME) \
+	--mount 'type=bind,src=$(requirements_src),dst=$(requirements_dst)' \
+	--mount 'type=volume,src=$(JUP_VOLUME_NAME),dst=$(PROJECT_PATH)/venv/' \
+	--workdir $(PROJECT_PATH) \
+	$(JUP_IMAGE_NAME) \
 
 alldown: env_guard docker
 	docker-compose down --rmi all --volumes --remove-orphans
