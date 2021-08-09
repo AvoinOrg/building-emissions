@@ -1,5 +1,6 @@
 # Project specific
 *.pdf
+.~*
 # *.csv
 
 # Byte-compiled / optimized / DLL files
