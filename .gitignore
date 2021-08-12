@@ -1,7 +1,10 @@
 # Project specific
 *.pdf
 .~*
-# *.csv
+
+# Archives
+*.zip
+*.tar
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
