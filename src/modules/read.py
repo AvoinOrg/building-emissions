@@ -65,6 +65,10 @@ def col_types(desired_types, df, v=True):
 	Dataframe with correct types if possible, or an error
 	'''
 
+	if len(desired_types) != len(df.columns):
+		raise Exception('length of name arrays should match: {} != {}'
+			.format(len(desired_types), len(df.columns)))
+
 	for col, dt in zip(df.columns, desired_types):
 
 		if not df[col].dtype == dt:

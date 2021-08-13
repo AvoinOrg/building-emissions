@@ -1,0 +1,11 @@
+Climate zone,Climate zone name,Weather file,Representative city,Alpha-3 code,Continent,"Heating demand factor [kWh/(m2,a)]","[GWh/(m2,a)]"
+1,Tropics,ASHRAE IWEC 2,"Singapore, Singapore",SGP,Asia,"20,006",0.000020006
+2,Temperate (sub-continental),ASHRAE IWEC 2,"Guangzhou, China",CHN,Asia,"22,628",0.000022628
+3,Temperate (oceanic),ASHRAE IWEC 2,"Rome, Italy",ITA,Europe,"52,005",0.000052005
+4,Temperate (continental),ASHRAE IWEC 2,"Berlin, Germany",DEU,Europe,"133,280",0.000133280
+5,Subtropics (winter rainfall),ASHRAE IWEC 2,"Helsinki, Finland",FIN,Europe,"159,993",0.000159993
+6,Subtropics (summer rainfall),ASHRAE IWEC 2,"Irkutsk, Russia",RUS,Asia,"240,838",0.000240838
+7,Boreal (sub-continental),ASHRAE IWEC 2,"Trondheim, Norway",NOR,Europe,"158,663",0.000158663
+8,Boreal (oceanic),ASHRAE IWEC 2,"Rovaniemi, Finland",FIN,Europe,"230,084",0.000230084
+9,Boreal (continental),ASHRAE IWEC 2,"Yakutsk, Russia",RUS,Asia,"385,013",0.000385013
+10,Arctic,ASHRAE IWEC 2,"Nuuk, Greenland",GRL,North America,"245,280",0.000245280
