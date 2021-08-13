@@ -66,8 +66,8 @@ def col_types(desired_types, df, v=True):
 	'''
 
 	if len(desired_types) != len(df.columns):
-	raise Exception('length of name arrays should match: {} != {}'
-		.format(len(desired_types), len(df.columns)))
+		raise Exception('length of name arrays should match: {} != {}'
+			.format(len(desired_types), len(df.columns)))
 
 	for col, dt in zip(df.columns, desired_types):
 

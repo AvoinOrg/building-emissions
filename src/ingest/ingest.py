@@ -1,3 +1,4 @@
+import json
 import sys, os
 sys.path.append(os.path.abspath(os.path.join('..', 'modules')))
 
@@ -5,63 +6,41 @@ import read as r
 
 class Ingest:
     '''Ingests all input data needed for the project.
+    
+    Class members
+    -------------
+    schema: object holding information to parse input datasets
+    ds_names: list of input datasets
     '''
 
-    # missing areas and building statisticts
-    schema = {
-        'climatetrace_countries': {
-            'extension': '.csv',
-            'original_cols': ["name", "alpha3"],
-            'renamed_cols': ["country_name", "iso3_code"],
-            'col_dtypes': ["string", "string"]
-        },
+    def __init__(self, schema_file):
+        '''
+        Params
+        ------
+        schema_file: string, relative or absolute path of schema file (json)
+        '''
+        with open(schema_file, mode='r') as f:
+            self.schema = json.load(f)
 
-        'countries_data': {
-            'extension': '.csv',
-            'original_cols': ["Alpha-3 code", "pop_density_1overm2", "Emission factor tCO2/GWh"],
-            'renamed_cols': ["iso3_code", "pop_density", "emission_factor"],
-            'col_dtypes': ["string", "float64", "float64"]
-        },
+        self.ds_names = list(self.schema.keys())
 
-        'heating_demand_data': {
-            'extension': '.csv',
-            'original_cols': ["Climate zone", "[GWh/(m2,a)]"],
-            'renamed_cols': ["climate_zone", "heating_demand_factor"],
-            'col_dtypes': ["int64", "float64"]
-        },
+    def read_and_parse(self, data_dir, v=True, q=False):
+        '''
+        Params
+        ------
+        data_dir: string, relative or absolute path for input data
+        v: boolean, toggel verbosity, default True
+        q: boolean: toggel quiet, default False (if true, v is automatically false)
 
-        'manual_continents_data': {
-            'extension': '.csv',
-            'original_cols': ["Alpha-3 code", "Closest continent"],
-            'renamed_cols': ["iso3_code", "continent_name"],
-            'col_dtypes': ["string", "string"]
-        },
-
-        'ne_countries_continents': {
-            'extension': '.csv',
-            'original_cols': ["CONTINENT", "ADM0_A3"],
-            'renamed_cols': ["continent_name", "iso3_code"],
-            'col_dtypes': ["string", "string"]
-        },
-        'on_site_heat_data': {
-            'extension': '.csv',
-            'original_cols': ["Continent", "On-site heating energy generation factors", " Heated floor area factors", "on-site heated floor area factor"],
-            'renamed_cols': ["continent_name", "oheg_factor", "hfa_factor", "ohfa_factor"],
-            'col_dtypes': ["string", "float64", "float64", "float64"]
-        }
-    }
-
-
-    ds_names = list(schema.keys())
-
-    def __init__(self, data_dir):
-        self.dir = data_dir
-
-    def read_and_parse(self, v=True, q=False):
+        Returns
+        -------
+        parsed_datasets: Dictionary with dataset names as keys and dataframes as values
+        '''
+      
         if q:
             v = False
         ds_exts = [self.schema[key]['extension'] for key in self.ds_names]
-        datasets = r.read_datasets(self.dir, self.ds_names, ds_exts)
+        datasets = r.read_datasets(data_dir, self.ds_names, ds_exts)
         parsed_datasets = {}
 
         for key in self.ds_names:
