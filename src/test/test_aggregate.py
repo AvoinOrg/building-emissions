@@ -27,10 +27,18 @@ class TestAggregate:
         combined = Aggregate.combine_continents(df1, df2, columns=['0'])
         assert len(combined) == len(set(df1['0']).union(df2['0']))
 
-    def test_add_cols(self, df1, df2):
+    def test_add_cols_added_nona(self, df1, df2):
         '''Tests that added column has no na values'''
         index = df1.index
         df1['index'] = index
         df2['index'] = index
         combined = Aggregate.add_cols(df1, df2, on='index', cols='2')
         assert np.any(combined['2'].isna()) == False
+
+    def test_add_cols_original_on(self, df1, df2):
+        '''Tests that added column has no na values'''
+        index = df1.index
+        df1['index'] = index
+        df2['index'] = index
+        combined = Aggregate.add_cols(df1, df2, on='index', cols='2')
+        assert np.all(combined['index'] == df1['index']) == True
