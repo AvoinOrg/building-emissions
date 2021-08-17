@@ -1,5 +1,3 @@
-import pandas as pd
-
 def estimate_floor_area(data, column_map, ref_vals):
     '''Estimates the floor area of countries.
 
@@ -76,5 +74,58 @@ def estimate_floor_area(data, column_map, ref_vals):
 
     _data = data.copy()
     _data['estimated_floor_area'] = _d['estimated_floor_area']
+
+    return _data
+
+
+def calculate_emissions(data, column_map):
+    '''Estimates the emissions of countries.
+
+    Params
+    ------
+    data: pandas dataframe
+        The dataset used for the calculation
+    column_map: dictionary
+        A column mapping in the form
+        {
+            'area': <original column name for estimated floor area of area i>,
+            'heating_demand': <original column name for heating demand factor for country i>,
+            'ohfa': <original column name for on-site heated floor area factor of country i>,
+            'emission: <original column name for emission factor for country i>
+        }
+
+    Returns
+    -------
+    pandas datframe
+        a copy of the original data with a new column containing the estimates
+
+    Notes:
+    ------
+    Emissions are estimated based on the following formula:
+
+    .. math::
+        estimated_emissions = area * ohfa * heating_demand * emission
+
+    where
+    :math: `area` is the estimated floor area of area :math: `i`
+    :math: `ohfa` is the on-site heated floor area factor of country :math: `i`
+    :math: `heating_demand` is the heating demand factor in GWh per meters squared for country :math: `i`
+    :math: `emission` is the emission factor in tonnes CO2 per GWh for country :math: `i`
+    '''
+
+    _d = data.copy()
+    cm = {}
+
+    try:
+        for key in column_map:
+            cm[column_map[key]] = key
+        _d = _d.rename(columns=cm)
+    except Exception as e:
+        print('Check input values!', e)
+
+    _d['estimated_emissions'] = _d['area'] * _d['ohfa'] * _d['heating_demand'] * _d['emission']
+
+    _data = data.copy()
+    _data['estimated_emissions'] = _d['estimated_emissions']
 
     return _data
