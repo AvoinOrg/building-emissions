@@ -9,9 +9,6 @@ RUN	groupadd --gid 1000 ${USR_NAME} && \
 
 USER ${USR_NAME}:${USR_NAME}
 
-COPY --chown=${USR_NAME}:${USR_NAME} ./src/ ${PROJECT_PATH}/src/
-COPY --chown=${USR_NAME}:${USR_NAME} ./requirements.txt ${PROJECT_PATH}/requirements.txt
-
 RUN cd ${PROJECT_PATH} && \
 	/bin/bash -c  \
 	"echo 'pip freeze > /home/jup/building-emissions/requirements.txt' | tee update.sh && \
@@ -21,3 +18,6 @@ RUN cd ${PROJECT_PATH} && \
 	ln -s venv/bin/activate jupdev"
 
 ENV PATH "/home/jup/building-emissions:$PATH"
+
+COPY --chown=${USR_NAME}:${USR_NAME} ./src/ ${PROJECT_PATH}/src/
+COPY --chown=${USR_NAME}:${USR_NAME} ./requirements.txt ${PROJECT_PATH}/requirements.txt
