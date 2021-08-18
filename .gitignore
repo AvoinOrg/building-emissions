@@ -2,6 +2,7 @@
 *.pdf
 *.xlsx
 .~*
+prod*/
 
 # Archives
 *.zip

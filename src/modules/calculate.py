@@ -78,6 +78,55 @@ def estimate_floor_area(data, column_map, ref_vals):
     return _data
 
 
+def calculate_heat_demand(data, column_map):
+    '''Calculates heat demand of countries.
+
+    Params
+    ------
+    data: pandas dataframe
+        The dataset used for the calculation
+    column_map: dictionary
+        A column mapping in the form
+        {
+            'farea': <original column name for estimated floor area of area i>,
+            'heating_demand_factor': <original column name for heating demand factor for country i>,
+        }
+
+    Returns
+    -------
+    pandas datframe
+        a copy of the original data with a new column containing the estimates
+
+    Notes:
+    ------
+    Heat demand is based on the following formula:
+
+    .. math::
+        estimated_heat_demand = area * heating_demand_factor
+
+    where
+    :math: `area` is the estimated floor area of area :math: `i`
+    :math: `heating_demand_factor` is the heating demand factor in GWh per meters squared for country :math: `i`
+    '''
+
+    _d = data.copy()
+    cm = {}
+
+    try:
+        for key in column_map:
+            cm[column_map[key]] = key
+        _d = _d.rename(columns=cm)
+    except Exception as e:
+        print('Check input values!', e)
+
+    _d['estimated_heat_demand'] = _d['area'] * _d['heating_demand_factor']
+
+    _data = data.copy()
+    _data['estimated_heat_demand'] = _d['estimated_heat_demand']
+
+    return _data
+
+
 def calculate_emissions(data, column_map):
     '''Estimates the emissions of countries.
 
