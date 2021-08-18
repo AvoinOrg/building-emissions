@@ -37,5 +37,5 @@ def print_na(df, cols, v=False):
 
     for col in cols:
         nas = df[col].isna()
-        print('\nNumber of NA values in new column {}:\n {}\n***'.format(col, np.sum(nas)))
+        print('\nNumber of NA values in column {}:\n {}\n***'.format(col, np.sum(nas)))
         v and show_all(df[nas].reindex())
